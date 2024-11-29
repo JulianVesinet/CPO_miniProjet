@@ -7,15 +7,8 @@ package cpo_mastermind;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- *
- * @author julia
- */
 public class CPO_MasterMind {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         // Création de quelques pions
         Pion pionRouge = new Pion('R');
@@ -37,13 +30,30 @@ public class CPO_MasterMind {
         Combinaison combinaisonFixe = new Combinaison(pionsFixes);
         System.out.println("Combinaison fixe : " + combinaisonFixe);
 
-        // Génération d'une combinaison aléatoire
+        // Génération d'une combinaison aléatoire pour le plateau
         ArrayList<Character> couleursDisponibles = new ArrayList<>(Arrays.asList('R', 'B', 'G', 'Y'));
-        Combinaison combinaisonAleatoire = Combinaison.genererAleatoire(4, couleursDisponibles);
-        System.out.println("Combinaison aléatoire : " + combinaisonAleatoire);
+        Combinaison combinaisonSecrete = Combinaison.genererAleatoire(4, couleursDisponibles);
 
-        // Comparaison des deux combinaisons
-        int[] resultatComparaison = combinaisonFixe.comparer(combinaisonAleatoire);
-        System.out.println("Résultat de la comparaison : " + resultatComparaison[0] + " noirs, " + resultatComparaison[1] + " blancs");
+        // Initialisation du plateau de jeu
+        PlateauDeJeu plateau = new PlateauDeJeu(combinaisonSecrete, 10);
+        System.out.println("\nLa combinaison secrète a été générée.\n");
+
+        // Simulation de plusieurs tentatives
+        for (int i = 0; i < 5; i++) {
+            Combinaison tentative = Combinaison.genererAleatoire(4, couleursDisponibles);
+            System.out.println("Tentative " + (i + 1) + " : " + tentative);
+
+            plateau.proposerCombinaison(tentative);
+            plateau.afficherPlateau();
+
+            // Vérification des conditions de victoire ou défaite
+            if (plateau.estVictoire()) {
+                System.out.println("Félicitations ! Vous avez deviné la combinaison secrète !");
+                break;
+            } else if (plateau.estDefaite()) {
+                System.out.println("Dommage, vous avez épuisé vos tentatives !");
+                break;
+            }
+        }
     }
 }
