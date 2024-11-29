@@ -1,14 +1,17 @@
+package cpo_mastermind;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cpo_mastermind;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 /**
  *
  * @author julia
  */
+import cpo_mastermind.Combinaison;
+import java.util.ArrayList;
+
 public class PlateauDeJeu {
     private Combinaison combinaisonSecrete;
     private ArrayList<Combinaison> tentatives;
@@ -23,60 +26,36 @@ public class PlateauDeJeu {
         this.nbToursMax = nbToursMax;
     }
 
-    // Ajouter une tentative et calculer les indices
+    // Accesseur pour la combinaison secrète
+    public Combinaison getCombinaisonSecrete() {
+        return combinaisonSecrete;
+    }
+
+    // Ajoute une tentative et génère les indices correspondants
     public void proposerCombinaison(Combinaison tentative) {
         tentatives.add(tentative);
-        int[] indices = combinaisonSecrete.comparer(tentative);
-        String reponse = indices[0] + " noirs, " + indices[1] + " blancs";
+        int[] resultat = tentative.comparer(combinaisonSecrete);
+        String reponse = resultat[0] + " noirs, " + resultat[1] + " blancs";
         reponses.add(reponse);
-
-        System.out.println("Tentative : " + tentative);
-        System.out.println("Réponse : " + reponse);
+        afficherPlateau();
     }
 
-    // Afficher l'état actuel du plateau
+    // Affiche l'état actuel du plateau
     public void afficherPlateau() {
-        System.out.println("État du plateau :");
+        System.out.println("État actuel du plateau :");
         for (int i = 0; i < tentatives.size(); i++) {
-            System.out.println("Tentative " + (i + 1) + " : " + tentatives.get(i) + " -> " + reponses.get(i));
+            System.out.println("Tentative " + (i + 1) + " : " + tentatives.get(i) + " -> Réponse : " + reponses.get(i));
         }
     }
 
-    // Vérifier si la victoire est atteinte
+    // Vérifie si la dernière tentative est une victoire
     public boolean estVictoire() {
         if (tentatives.isEmpty()) return false;
-        Combinaison derniereTentative = tentatives.get(tentatives.size() - 1);
-        return combinaisonSecrete.comparer(derniereTentative)[0] == combinaisonSecrete.taille;
+        return tentatives.get(tentatives.size() - 1).comparer(combinaisonSecrete)[0] == combinaisonSecrete.getElements().length;
     }
 
-    // Vérifier si le nombre maximal de tours est dépassé
+    // Vérifie si le joueur a dépassé le nombre maximum de tours
     public boolean estDefaite() {
         return tentatives.size() >= nbToursMax && !estVictoire();
-    }
-
-    // Méthode principale pour tester
-    public static void main(String[] args) {
-        ArrayList<Character> couleursDisponibles = new ArrayList<>(Arrays.asList('R', 'B', 'G', 'Y'));
-        Combinaison combinaisonSecrete = Combinaison.genererAleatoire(4, couleursDisponibles);
-        PlateauDeJeu plateau = new PlateauDeJeu(combinaisonSecrete, 10);
-
-        System.out.println("La combinaison secrète a été générée.");
-
-        // Simulation de plusieurs tentatives
-        for (int i = 0; i < 5; i++) {
-            Combinaison tentative = Combinaison.genererAleatoire(4, couleursDisponibles);
-            plateau.proposerCombinaison(tentative);
-            plateau.afficherPlateau();
-
-            if (plateau.estVictoire()) {
-                System.out.println("Félicitations ! Vous avez gagné !");
-                break;
-            }
-
-            if (plateau.estDefaite()) {
-                System.out.println("Dommage, vous avez perdu !");
-                break;
-            }
-        }
     }
 }
