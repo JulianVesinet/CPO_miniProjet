@@ -56,6 +56,54 @@ private void afficherProchaineLigne() {
 
         jLabel2 = new javax.swing.JLabel();
         grillePanel = new javax.swing.JPanel();
+        Ligne1Colonne1 = new javax.swing.JComboBox<>();
+        Ligne1Colonne2 = new javax.swing.JComboBox<>();
+        Ligne1Colonne3 = new javax.swing.JComboBox<>();
+        Ligne1Colonne4 = new javax.swing.JComboBox<>();
+        Ligne2Colonne1 = new javax.swing.JComboBox<>();
+        Ligne2Colonne2 = new javax.swing.JComboBox<>();
+        Ligne2Colonne3 = new javax.swing.JComboBox<>();
+        Ligne2Colonne4 = new javax.swing.JComboBox<>();
+        Ligne3Colonne1 = new javax.swing.JComboBox<>();
+        Ligne3Colonne2 = new javax.swing.JComboBox<>();
+        Ligne3Colonne3 = new javax.swing.JComboBox<>();
+        Ligne3Colonne4 = new javax.swing.JComboBox<>();
+        Ligne4Colonne1 = new javax.swing.JComboBox<>();
+        Ligne4Colonne2 = new javax.swing.JComboBox<>();
+        Ligne4Colonne3 = new javax.swing.JComboBox<>();
+        Ligne4Colonne4 = new javax.swing.JComboBox<>();
+        Ligne5Colonne1 = new javax.swing.JComboBox<>();
+        Ligne5Colonne2 = new javax.swing.JComboBox<>();
+        Ligne5Colonne3 = new javax.swing.JComboBox<>();
+        Ligne5Colonne4 = new javax.swing.JComboBox<>();
+        Ligne6Colonne1 = new javax.swing.JComboBox<>();
+        Ligne6Colonne2 = new javax.swing.JComboBox<>();
+        Ligne6Colonne3 = new javax.swing.JComboBox<>();
+        Ligne6Colonne4 = new javax.swing.JComboBox<>();
+        Ligne7Colonne1 = new javax.swing.JComboBox<>();
+        Ligne7Colonne2 = new javax.swing.JComboBox<>();
+        Ligne7Colonne3 = new javax.swing.JComboBox<>();
+        Ligne7Colonne4 = new javax.swing.JComboBox<>();
+        Ligne8Colonne1 = new javax.swing.JComboBox<>();
+        Ligne8Colonne2 = new javax.swing.JComboBox<>();
+        Ligne8Colonne3 = new javax.swing.JComboBox<>();
+        Ligne8Colonne4 = new javax.swing.JComboBox<>();
+        Ligne9Colonne1 = new javax.swing.JComboBox<>();
+        Ligne9Colonne2 = new javax.swing.JComboBox<>();
+        Ligne9Colonne3 = new javax.swing.JComboBox<>();
+        Ligne9Colonne4 = new javax.swing.JComboBox<>();
+        Ligne10Colonne1 = new javax.swing.JComboBox<>();
+        Ligne10Colonne2 = new javax.swing.JComboBox<>();
+        Ligne10Colonne3 = new javax.swing.JComboBox<>();
+        Ligne10Colonne4 = new javax.swing.JComboBox<>();
+        Ligne11Colonne1 = new javax.swing.JComboBox<>();
+        Ligne11Colonne2 = new javax.swing.JComboBox<>();
+        Ligne11Colonne3 = new javax.swing.JComboBox<>();
+        Ligne11Colonne4 = new javax.swing.JComboBox<>();
+        Ligne12Colonne1 = new javax.swing.JComboBox<>();
+        Ligne12Colonne2 = new javax.swing.JComboBox<>();
+        Ligne12Colonne3 = new javax.swing.JComboBox<>();
+        Ligne12Colonne4 = new javax.swing.JComboBox<>();
         validerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,14 +112,190 @@ private void afficherProchaineLigne() {
         getContentPane().add(jLabel2, java.awt.BorderLayout.PAGE_START);
 
         grillePanel.setBackground(new java.awt.Color(204, 204, 204));
-        grillePanel.setLayout(new java.awt.GridLayout(12, 4));
+        grillePanel.setLayout(new java.awt.GridLayout(12, 4, 5, 5));
+
+        Ligne1Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        Ligne1Colonne1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Ligne1Colonne1ActionPerformed(evt);
+            }
+        });
+        grillePanel.add(Ligne1Colonne1);
+
+        Ligne1Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne1Colonne2);
+
+        Ligne1Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne1Colonne3);
+
+        Ligne1Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne1Colonne4);
+
+        Ligne2Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne2Colonne1);
+
+        Ligne2Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        Ligne2Colonne2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Ligne2Colonne2ActionPerformed(evt);
+            }
+        });
+        grillePanel.add(Ligne2Colonne2);
+
+        Ligne2Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne2Colonne3);
+
+        Ligne2Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne2Colonne4);
+
+        Ligne3Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne3Colonne1);
+
+        Ligne3Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne3Colonne2);
+
+        Ligne3Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne3Colonne3);
+
+        Ligne3Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne3Colonne4);
+
+        Ligne4Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne4Colonne1);
+
+        Ligne4Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne4Colonne2);
+
+        Ligne4Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne4Colonne3);
+
+        Ligne4Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne4Colonne4);
+
+        Ligne5Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne5Colonne1);
+
+        Ligne5Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne5Colonne2);
+
+        Ligne5Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne5Colonne3);
+
+        Ligne5Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne5Colonne4);
+
+        Ligne6Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne6Colonne1);
+
+        Ligne6Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne6Colonne2);
+
+        Ligne6Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne6Colonne3);
+
+        Ligne6Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne6Colonne4);
+
+        Ligne7Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne7Colonne1);
+
+        Ligne7Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne7Colonne2);
+
+        Ligne7Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne7Colonne3);
+
+        Ligne7Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne7Colonne4);
+
+        Ligne8Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne8Colonne1);
+
+        Ligne8Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne8Colonne2);
+
+        Ligne8Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne8Colonne3);
+
+        Ligne8Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne8Colonne4);
+
+        Ligne9Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne9Colonne1);
+
+        Ligne9Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne9Colonne2);
+
+        Ligne9Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne9Colonne3);
+
+        Ligne9Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne9Colonne4);
+
+        Ligne10Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne10Colonne1);
+
+        Ligne10Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne10Colonne2);
+
+        Ligne10Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne10Colonne3);
+
+        Ligne10Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne10Colonne4);
+
+        Ligne11Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne11Colonne1);
+
+        Ligne11Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne11Colonne2);
+
+        Ligne11Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne11Colonne3);
+
+        Ligne11Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne11Colonne4);
+
+        Ligne12Colonne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne12Colonne1);
+
+        Ligne12Colonne2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne12Colonne2);
+
+        Ligne12Colonne3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne12Colonne3);
+
+        Ligne12Colonne4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rouge", "Bleu", "Vert", "Jaune" }));
+        grillePanel.add(Ligne12Colonne4);
+
         getContentPane().add(grillePanel, java.awt.BorderLayout.CENTER);
 
         validerButton.setText("Valider");
+        validerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validerButtonActionPerformed(evt);
+            }
+        });
         getContentPane().add(validerButton, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void validerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validerButtonActionPerformed
+        // TODO add your handling code here:
+
+        afficherProchaineLigne(); // Dévoile une nouvelle ligne pour le prochain tour
+    
+
+    }//GEN-LAST:event_validerButtonActionPerformed
+
+    private void Ligne2Colonne2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ligne2Colonne2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Ligne2Colonne2ActionPerformed
+
+    private void Ligne1Colonne1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ligne1Colonne1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Ligne1Colonne1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -109,6 +333,54 @@ private void afficherProchaineLigne() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Ligne10Colonne1;
+    private javax.swing.JComboBox<String> Ligne10Colonne2;
+    private javax.swing.JComboBox<String> Ligne10Colonne3;
+    private javax.swing.JComboBox<String> Ligne10Colonne4;
+    private javax.swing.JComboBox<String> Ligne11Colonne1;
+    private javax.swing.JComboBox<String> Ligne11Colonne2;
+    private javax.swing.JComboBox<String> Ligne11Colonne3;
+    private javax.swing.JComboBox<String> Ligne11Colonne4;
+    private javax.swing.JComboBox<String> Ligne12Colonne1;
+    private javax.swing.JComboBox<String> Ligne12Colonne2;
+    private javax.swing.JComboBox<String> Ligne12Colonne3;
+    private javax.swing.JComboBox<String> Ligne12Colonne4;
+    private javax.swing.JComboBox<String> Ligne1Colonne1;
+    private javax.swing.JComboBox<String> Ligne1Colonne2;
+    private javax.swing.JComboBox<String> Ligne1Colonne3;
+    private javax.swing.JComboBox<String> Ligne1Colonne4;
+    private javax.swing.JComboBox<String> Ligne2Colonne1;
+    private javax.swing.JComboBox<String> Ligne2Colonne2;
+    private javax.swing.JComboBox<String> Ligne2Colonne3;
+    private javax.swing.JComboBox<String> Ligne2Colonne4;
+    private javax.swing.JComboBox<String> Ligne3Colonne1;
+    private javax.swing.JComboBox<String> Ligne3Colonne2;
+    private javax.swing.JComboBox<String> Ligne3Colonne3;
+    private javax.swing.JComboBox<String> Ligne3Colonne4;
+    private javax.swing.JComboBox<String> Ligne4Colonne1;
+    private javax.swing.JComboBox<String> Ligne4Colonne2;
+    private javax.swing.JComboBox<String> Ligne4Colonne3;
+    private javax.swing.JComboBox<String> Ligne4Colonne4;
+    private javax.swing.JComboBox<String> Ligne5Colonne1;
+    private javax.swing.JComboBox<String> Ligne5Colonne2;
+    private javax.swing.JComboBox<String> Ligne5Colonne3;
+    private javax.swing.JComboBox<String> Ligne5Colonne4;
+    private javax.swing.JComboBox<String> Ligne6Colonne1;
+    private javax.swing.JComboBox<String> Ligne6Colonne2;
+    private javax.swing.JComboBox<String> Ligne6Colonne3;
+    private javax.swing.JComboBox<String> Ligne6Colonne4;
+    private javax.swing.JComboBox<String> Ligne7Colonne1;
+    private javax.swing.JComboBox<String> Ligne7Colonne2;
+    private javax.swing.JComboBox<String> Ligne7Colonne3;
+    private javax.swing.JComboBox<String> Ligne7Colonne4;
+    private javax.swing.JComboBox<String> Ligne8Colonne1;
+    private javax.swing.JComboBox<String> Ligne8Colonne2;
+    private javax.swing.JComboBox<String> Ligne8Colonne3;
+    private javax.swing.JComboBox<String> Ligne8Colonne4;
+    private javax.swing.JComboBox<String> Ligne9Colonne1;
+    private javax.swing.JComboBox<String> Ligne9Colonne2;
+    private javax.swing.JComboBox<String> Ligne9Colonne3;
+    private javax.swing.JComboBox<String> Ligne9Colonne4;
     private javax.swing.JPanel grillePanel;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton validerButton;
