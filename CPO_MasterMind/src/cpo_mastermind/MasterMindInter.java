@@ -4,46 +4,47 @@
  */
 package cpo_mastermind;
 
-import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 /**
  *
- * @author julia
+ * @author julian
  */
-
 public class MasterMindInter extends javax.swing.JFrame {
-private int ligneVisible = 0;
-private void initGrille() {
-    grillePanel.removeAll(); // Supprime les anciens composants si existants
-    for (int i = 0; i < 12 * 4; i++) {
-        JTextField champ = new JTextField();
-        champ.setEditable(false); // Champs inactifs par défaut
-        champ.setVisible(i < 4);  // Montre uniquement la première ligne
-        grillePanel.add(champ);
+    private int ligneVisible = 0;
+
+    private void initGrille() {
+        grillePanel.removeAll(); // Supprime les anciens composants si existants
+        String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
         
-    }
-    grillePanel.revalidate();
-    grillePanel.repaint();
-        
-}
-private void afficherProchaineLigne() {
-    ligneVisible++;
-    for (int i = ligneVisible * 4; i < (ligneVisible + 1) * 4; i++) {
-        if (i < grillePanel.getComponentCount()) {
-            grillePanel.getComponent(i).setVisible(true);
+        for (int i = 0; i < 12 * 4; i++) {
+            JComboBox<String> comboBox = new JComboBox<>(couleurs); // Crée une JComboBox avec les couleurs
+            comboBox.setVisible(i < 4); // Montre uniquement la première ligne
+            grillePanel.add(comboBox); // Ajoute la JComboBox au panneau
         }
+        
+        grillePanel.revalidate();
+        grillePanel.repaint();
     }
-    grillePanel.revalidate();
-    grillePanel.repaint();
-}
+
+    private void afficherProchaineLigne() {
+        ligneVisible++;
+        for (int i = ligneVisible * 4; i < (ligneVisible + 1) * 4; i++) {
+            if (i < grillePanel.getComponentCount()) {
+                grillePanel.getComponent(i).setVisible(true); // Rendre visible la prochaine ligne
+            }
+        }
+        grillePanel.revalidate();
+        grillePanel.repaint();
+    }
+
     /**
      * Creates new form MasterMindInter
      */
-   public MasterMindInter() {
-    initComponents();
-    initGrille();
-    
-}
+    public MasterMindInter() {
+        initComponents(); // Initialisation des composants générés par le GUI Builder
+        initGrille(); // Initialisation de la grille personnalisée
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -284,7 +285,18 @@ private void afficherProchaineLigne() {
     private void validerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validerButtonActionPerformed
         // TODO add your handling code here:
 
-        afficherProchaineLigne(); // Dévoile une nouvelle ligne pour le prochain tour
+        String[] proposition = new String[4];
+        for (int i = 0; i < 4; i++) {
+            JComboBox<String> comboBox = (JComboBox<String>) grillePanel.getComponent(ligneVisible * 4 + i);
+            proposition[i] = comboBox.getSelectedItem().toString(); // Récupère la couleur sélectionnée
+        }
+
+        // Afficher les couleurs choisies dans la console (à remplacer par votre logique)
+        System.out.println("Proposition : " + String.join(", ", proposition));
+
+        // TODO : Comparer la proposition avec la combinaison secrète et afficher le résultat
+        afficherProchaineLigne(); // Afficher la prochaine ligne pour le tour suivant
+    
     
 
     }//GEN-LAST:event_validerButtonActionPerformed
