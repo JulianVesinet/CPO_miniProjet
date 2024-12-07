@@ -5,6 +5,7 @@
 package cpo_mastermind;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 /**
  *
@@ -12,17 +13,23 @@ import javax.swing.JComboBox;
  */
 public class MasterMindInter extends javax.swing.JFrame {
     private int ligneVisible = 0;
+    private String[] combinaisonSecrete = {"Rouge", "Bleu", "Jaune", "Vert"}; // Combinaison secrète
+
+    public MasterMindInter() {
+        initComponents();
+        initGrille();
+    }
 
     private void initGrille() {
         grillePanel.removeAll(); // Supprime les anciens composants si existants
         String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
-        
+
         for (int i = 0; i < 12 * 4; i++) {
             JComboBox<String> comboBox = new JComboBox<>(couleurs); // Crée une JComboBox avec les couleurs
             comboBox.setVisible(i < 4); // Montre uniquement la première ligne
             grillePanel.add(comboBox); // Ajoute la JComboBox au panneau
         }
-        
+
         grillePanel.revalidate();
         grillePanel.repaint();
     }
@@ -38,12 +45,35 @@ public class MasterMindInter extends javax.swing.JFrame {
         grillePanel.repaint();
     }
 
-    /**
-     * Creates new form MasterMindInter
-     */
-    public MasterMindInter() {
-        initComponents(); // Initialisation des composants générés par le GUI Builder
-        initGrille(); // Initialisation de la grille personnalisée
+    private String comparerCombinaisons(String[] proposition, String[] secret) {
+        int bienPlaces = 0;
+        int malPlaces = 0;
+        boolean[] positionsMarquees = new boolean[secret.length];
+        boolean[] positionsTestees = new boolean[proposition.length];
+
+        // Étape 1 : Trouver les bien placés
+        for (int i = 0; i < proposition.length; i++) {
+            if (proposition[i].equals(secret[i])) {
+                bienPlaces++;
+                positionsMarquees[i] = true; // Marque la position dans la combinaison secrète
+                positionsTestees[i] = true; // Marque la position dans la proposition
+            }
+        }
+
+        // Étape 2 : Trouver les mal placés
+        for (int i = 0; i < proposition.length; i++) {
+            if (!positionsTestees[i]) {
+                for (int j = 0; j < secret.length; j++) {
+                    if (!positionsMarquees[j] && proposition[i].equals(secret[j])) {
+                        malPlaces++;
+                        positionsMarquees[j] = true; // Marque la position dans la combinaison secrète
+                        break;
+                    }
+                }
+            }
+        }
+
+        return "Bien placés : " + bienPlaces + " | Mal placés : " + malPlaces;
     }
 
     /**
@@ -106,6 +136,7 @@ public class MasterMindInter extends javax.swing.JFrame {
         Ligne12Colonne3 = new javax.swing.JComboBox<>();
         Ligne12Colonne4 = new javax.swing.JComboBox<>();
         validerButton = new javax.swing.JButton();
+        lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -279,6 +310,9 @@ public class MasterMindInter extends javax.swing.JFrame {
         });
         getContentPane().add(validerButton, java.awt.BorderLayout.PAGE_END);
 
+        lblMessage.setText("jLabel1");
+        getContentPane().add(lblMessage, java.awt.BorderLayout.LINE_END);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -288,15 +322,27 @@ public class MasterMindInter extends javax.swing.JFrame {
         String[] proposition = new String[4];
         for (int i = 0; i < 4; i++) {
             JComboBox<String> comboBox = (JComboBox<String>) grillePanel.getComponent(ligneVisible * 4 + i);
-            proposition[i] = comboBox.getSelectedItem().toString(); // Récupère la couleur sélectionnée
+            proposition[i] = comboBox.getSelectedItem().toString();
         }
 
-        // Afficher les couleurs choisies dans la console (à remplacer par votre logique)
-        System.out.println("Proposition : " + String.join(", ", proposition));
+        // Comparer la tentative avec la combinaison secrète
+        String resultat = comparerCombinaisons(proposition, combinaisonSecrete);
 
-        // TODO : Comparer la proposition avec la combinaison secrète et afficher le résultat
-        afficherProchaineLigne(); // Afficher la prochaine ligne pour le tour suivant
+        // Afficher le résultat dans lblMessage
+        lblMessage.setText(resultat);
+
+        // Vérifier si le joueur a gagné
+        if (resultat.startsWith("Bien placés : 4")) {
+            lblMessage.setText("Félicitations, vous avez gagné !");
+            validerButton.setEnabled(false); // Désactiver le bouton en cas de victoire
+        } else if (ligneVisible == 11) { // Dernière tentative
+            lblMessage.setText("Défaite ! La combinaison secrète était : " + String.join(", ", combinaisonSecrete));
+            validerButton.setEnabled(false);
+        } else {
+            afficherProchaineLigne(); // Passer à la ligne suivante
+        }
     
+   
     
 
     }//GEN-LAST:event_validerButtonActionPerformed
@@ -395,6 +441,7 @@ public class MasterMindInter extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> Ligne9Colonne4;
     private javax.swing.JPanel grillePanel;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblMessage;
     private javax.swing.JButton validerButton;
     // End of variables declaration//GEN-END:variables
 }
