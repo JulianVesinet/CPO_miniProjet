@@ -5,87 +5,78 @@
 package cpo_mastermind;
 
 import java.awt.Color;
-
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-/**
- *
- * @author julian
- */
+import javax.swing.JPanel;
+
 public class MasterMindInter extends javax.swing.JFrame {
+
     private int ligneVisible = 0;
     private String[] combinaisonSecrete = {"Rouge", "Bleu", "Jaune", "Vert"}; // Combinaison secrète
 
     public MasterMindInter() {
         initComponents();
         initGrille();
-        
-      
-                };
-
-private void initGrille() {
-    grillePanel.removeAll(); // Efface les composants existants
-    String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
-
-    for (int i = 0; i < 12 * 4; i++) { // Crée 12 lignes de 4 JComboBox chacune
-        JComboBox<String> comboBox = new JComboBox<>(couleurs);
-
-        // Ajouter ActionListener pour gérer les changements de couleur
-        comboBox.addActionListener(e -> {
-            JComboBox<String> source = (JComboBox<String>) e.getSource();
-            String selectedColor = (String) source.getSelectedItem();
-
-            // Change la couleur de fond en fonction de la sélection
-            switch (selectedColor) {
-                case "Rouge":
-                    source.setBackground(Color.RED);
-                    break;
-                case "Bleu":
-                    source.setBackground(Color.BLUE);
-                    break;
-                case "Vert":
-                    source.setBackground(Color.GREEN);
-                    break;
-                case "Jaune":
-                    source.setBackground(Color.YELLOW);
-                    break;
-                default:
-                    source.setBackground(Color.WHITE);
-            }
-            source.setOpaque(true);
-            source.repaint();
-        });
-
-        // Par défaut, masquer toutes les cases sauf la première ligne
-        comboBox.setVisible(i < 4); // Seule la première ligne est visible au départ
-        grillePanel.add(comboBox);
     }
 
-    grillePanel.revalidate();
-    grillePanel.repaint();
-}
+    private void initGrille() {
+        grillePanel.removeAll(); // Efface les anciens composants
+        String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
+
+        for (int i = 0; i < 12; i++) { // 12 lignes
+            for (int j = 0; j < 4; j++) { // 4 colonnes par ligne
+                JComboBox<String> comboBox = new JComboBox<>(couleurs); // JComboBox avec les couleurs
+
+                // Listener pour changer la couleur de fond
+                comboBox.addActionListener(e -> {
+                    String selectedColor = (String) comboBox.getSelectedItem();
+                    switch (selectedColor) {
+                        case "Rouge":
+                            comboBox.setBackground(Color.RED);
+                            break;
+                        case "Bleu":
+                            comboBox.setBackground(Color.BLUE);
+                            break;
+                        case "Vert":
+                            comboBox.setBackground(Color.GREEN);
+                            break;
+                        case "Jaune":
+                            comboBox.setBackground(Color.YELLOW);
+                            break;
+                        default:
+                            comboBox.setBackground(Color.WHITE);
+                    }
+                    comboBox.setOpaque(true); // Nécessaire pour afficher la couleur
+                    comboBox.repaint();
+                });
+
+                comboBox.setVisible(i == 0); // Affiche uniquement la première ligne au début
+                grillePanel.add(comboBox);
+            }
+        }
+
+        grillePanel.revalidate();
+        grillePanel.repaint();
+    }
 
     private void afficherProchaineLigne() {
-    ligneVisible++; // Incrémenter l'index de ligne visible
-    for (int i = ligneVisible * 4; i < (ligneVisible + 1) * 4; i++) {
-        if (i < grillePanel.getComponentCount()) {
-            grillePanel.getComponent(i).setVisible(true); // Rendre visible la ligne suivante
+        ligneVisible++; // Passer à la ligne suivante
+        for (int i = ligneVisible * 4; i < (ligneVisible + 1) * 4; i++) {
+            if (i < grillePanel.getComponentCount()) {
+                grillePanel.getComponent(i).setVisible(true); // Rendre visible la nouvelle ligne
+            }
         }
+
+        grillePanel.revalidate();
+        grillePanel.repaint();
     }
 
-    grillePanel.revalidate();
-    grillePanel.repaint();
-}
     private void desactiverLigne(int ligne) {
-    for (int i = ligne * 4; i < (ligne + 1) * 4; i++) {
-        if (i < grillePanel.getComponentCount()) {
-            grillePanel.getComponent(i).setEnabled(false); // Désactiver les JComboBox de la ligne
+        for (int i = ligne * 4; i < (ligne + 1) * 4; i++) {
+            if (i < grillePanel.getComponentCount()) {
+                grillePanel.getComponent(i).setEnabled(false); // Désactiver la ligne actuelle
+            }
         }
     }
-}
 
     private String comparerCombinaisons(String[] proposition, String[] secret) {
         int bienPlaces = 0;
@@ -93,22 +84,22 @@ private void initGrille() {
         boolean[] positionsMarquees = new boolean[secret.length];
         boolean[] positionsTestees = new boolean[proposition.length];
 
-        // Étape 1 : Trouver les bien placés
+        // Étape 1 : Bien placés
         for (int i = 0; i < proposition.length; i++) {
             if (proposition[i].equals(secret[i])) {
                 bienPlaces++;
-                positionsMarquees[i] = true; // Marque la position dans la combinaison secrète
-                positionsTestees[i] = true; // Marque la position dans la proposition
+                positionsMarquees[i] = true;
+                positionsTestees[i] = true;
             }
         }
 
-        // Étape 2 : Trouver les mal placés
+        // Étape 2 : Mal placés
         for (int i = 0; i < proposition.length; i++) {
             if (!positionsTestees[i]) {
                 for (int j = 0; j < secret.length; j++) {
                     if (!positionsMarquees[j] && proposition[i].equals(secret[j])) {
                         malPlaces++;
-                        positionsMarquees[j] = true; // Marque la position dans la combinaison secrète
+                        positionsMarquees[j] = true;
                         break;
                     }
                 }
@@ -160,35 +151,43 @@ private void initGrille() {
 
 String[] proposition = new String[4];
 
-    // Récupérer les valeurs sélectionnées de la ligne actuelle
-    for (int i = 0; i < 4; i++) {
-        JComboBox<String> comboBox = (JComboBox<String>) grillePanel.getComponent(ligneVisible * 4 + i);
-        proposition[i] = (String) comboBox.getSelectedItem();
-    }
+        // Récupérer la proposition de la ligne actuelle
+        for (int i = 0; i < 4; i++) {
+            JComboBox<String> comboBox = (JComboBox<String>) grillePanel.getComponent(ligneVisible * 4 + i);
+            proposition[i] = (String) comboBox.getSelectedItem();
+        }
 
-    // Comparer la tentative avec la combinaison secrète
-    String resultat = comparerCombinaisons(proposition, combinaisonSecrete);
+        // Comparer avec la combinaison secrète
+        String resultat = comparerCombinaisons(proposition, combinaisonSecrete);
 
-    // Afficher le résultat dans lblMessage
-    lblMessage.setText(resultat);
+        // Afficher le résultat dans lblMessage
+        lblMessage.setText(resultat);
 
-    // Vérifier si le joueur a gagné
-    if (resultat.startsWith("Bien placés : 4")) {
-        lblMessage.setText("Félicitations, vous avez gagné !");
-        validerButton.setEnabled(false); // Désactiver le bouton en cas de victoire
-    } else if (ligneVisible == 11) { // Dernière tentative
-        lblMessage.setText("Défaite ! La combinaison secrète était : " + String.join(", ", combinaisonSecrete));
-        validerButton.setEnabled(false);
-    } else {
-        // Désactiver la ligne actuelle et afficher la suivante
-        desactiverLigne(ligneVisible);
-        afficherProchaineLigne();
-    }
+        // Vérifier victoire ou progression
+        if (resultat.startsWith("Bien placés : 4")) {
+            lblMessage.setText("Félicitations, vous avez gagné !");
+            validerButton.setEnabled(false); // Désactiver le bouton en cas de victoire
+        } else if (ligneVisible == 11) { // Dernière tentative
+            lblMessage.setText("Défaite ! La combinaison secrète était : " + String.join(", ", combinaisonSecrete));
+            validerButton.setEnabled(false);
+        } else {
+            desactiverLigne(ligneVisible); // Désactiver la ligne actuelle
+            afficherProchaineLigne(); // Afficher la suivante
+        }
     
-   
-    
+
+
+
 
     }//GEN-LAST:event_validerButtonActionPerformed
+
+    private void Ligne2Colonne2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ligne2Colonne2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Ligne2Colonne2ActionPerformed
+
+    private void Ligne1Colonne1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ligne1Colonne1ActionPerformed
+           // TODO add your handling code here:
+    }//GEN-LAST:event_Ligne1Colonne1ActionPerformed
 
     /**
      * @param args the command line arguments
