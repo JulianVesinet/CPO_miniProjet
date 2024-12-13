@@ -4,6 +4,9 @@
  */
 package cpo_mastermind;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
@@ -12,9 +15,11 @@ import javax.swing.JLabel;
  * @author julian
  */
 public class MasterMindInter extends javax.swing.JFrame {
+
     private int ligneVisible = 0;
     private String[] combinaisonSecrete = {"Rouge", "Bleu", "Jaune", "Vert"}; // Combinaison secrète
 
+    private JComboBox[][] matCombo = new JComboBox[12][4];
     public MasterMindInter() {
         initComponents();
         initGrille();
@@ -26,10 +31,21 @@ public class MasterMindInter extends javax.swing.JFrame {
 
         for (int i = 0; i < 12 * 4; i++) {
             JComboBox<String> comboBox = new JComboBox<>(couleurs); // Crée une JComboBox avec les couleurs
+            matCombo[i/4][i%4] = comboBox;
             comboBox.setVisible(i < 4); // Montre uniquement la première ligne
+            
+            comboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("blah");
+                    comboBox.setBackground(Color.red);
+                }
+
+            });
             grillePanel.add(comboBox); // Ajoute la JComboBox au panneau
         }
 
+        matCombo[0][2].setBackground(Color.green);
         grillePanel.revalidate();
         grillePanel.repaint();
     }
@@ -341,9 +357,7 @@ public class MasterMindInter extends javax.swing.JFrame {
         } else {
             afficherProchaineLigne(); // Passer à la ligne suivante
         }
-    
-   
-    
+
 
     }//GEN-LAST:event_validerButtonActionPerformed
 
@@ -352,7 +366,8 @@ public class MasterMindInter extends javax.swing.JFrame {
     }//GEN-LAST:event_Ligne2Colonne2ActionPerformed
 
     private void Ligne1Colonne1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ligne1Colonne1ActionPerformed
-        // TODO add your handling code here:
+        System.out.println("blah");
+        Ligne1Colonne1.setBackground(Color.red);        // TODO add your handling code here:
     }//GEN-LAST:event_Ligne1Colonne1ActionPerformed
 
     /**

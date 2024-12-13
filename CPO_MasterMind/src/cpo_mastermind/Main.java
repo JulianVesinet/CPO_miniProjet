@@ -6,7 +6,7 @@ package cpo_mastermind;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void dmain(String[] args) {
         // Liste des couleurs disponibles pour les pions
         ArrayList<Character> couleursDisponibles = new ArrayList<>();
         couleursDisponibles.add('R');  // Rouge
