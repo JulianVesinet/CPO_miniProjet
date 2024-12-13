@@ -16,7 +16,7 @@ public class Main {
 
         // Création d'une nouvelle partie avec :
         // - une combinaison de 4 pions
-        // - un nombre maximum de 10 tours
+        // Part- un nombre maximum de 10 tours
         // - les couleurs disponibles pour la combinaison
         Partie partie = new Partie(4, 10, couleursDisponibles);
 

@@ -1,4 +1,4 @@
-package cpo_mastermind;
+ package cpo_mastermind;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class Partie {
     private PlateauDeJeu plateau;
     private ArrayList<Character> couleursDisponibles;
+    
 
     // Constructeur
     public Partie(int tailleCombinaison, int nbToursMax, List<Character> couleursDisponibles) {
@@ -94,3 +95,4 @@ public class Partie {
         partie.lancerPartie();
     }
 }
+
