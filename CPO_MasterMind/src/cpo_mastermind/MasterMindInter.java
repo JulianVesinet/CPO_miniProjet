@@ -5,13 +5,19 @@
 package cpo_mastermind;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MasterMindInter extends javax.swing.JFrame {
 
     private int ligneVisible = 0;
     private String[] combinaisonSecrete = {"Rouge", "Bleu", "Jaune", "Vert"}; // Combinaison secrète
+    private JLabel[] lblResultats = new JLabel[12]; // Labels pour afficher les résultats ligne par ligne
+    private JPanel[] lignesPanel = new JPanel[12]; // Un JPanel pour chaque ligne
+    private JComboBox<String>[][] matCombo = new JComboBox[12][4]; // Matrice de JComboBox pour les couleurs
 
     public MasterMindInter() {
         initComponents();
@@ -19,12 +25,21 @@ public class MasterMindInter extends javax.swing.JFrame {
     }
 
     private void initGrille() {
-        grillePanel.removeAll(); // Efface les anciens composants
+        grillePanel.removeAll(); // Efface les composants existants
+        grillePanel.setLayout(new GridLayout(12, 1, 5, 5)); // Grille de 12 lignes, espacement vertical de 5px
+
         String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
 
-        for (int i = 0; i < 12; i++) { // 12 lignes
-            for (int j = 0; j < 4; j++) { // 4 colonnes par ligne
-                JComboBox<String> comboBox = new JComboBox<>(couleurs); // JComboBox avec les couleurs
+        for (int i = 0; i < 12; i++) {
+            // Créer un panel pour la ligne avec GridLayout (4 colonnes pour JComboBox, 1 pour JLabel)
+            lignesPanel[i] = new JPanel(new GridLayout(1, 5, 10, 0));
+
+            // Ajouter 4 JComboBox pour la ligne
+            for (int j = 0; j < 4; j++) {
+                JComboBox<String> comboBox = new JComboBox<>(couleurs);
+                comboBox.setPreferredSize(new Dimension(60, 30)); // Taille fixe pour les JComboBox
+                comboBox.setEnabled(i == 0); // Active uniquement la première ligne au début
+                matCombo[i][j] = comboBox;
 
                 // Listener pour changer la couleur de fond
                 comboBox.addActionListener(e -> {
@@ -49,9 +64,15 @@ public class MasterMindInter extends javax.swing.JFrame {
                     comboBox.repaint();
                 });
 
-                comboBox.setVisible(i == 0); // Affiche uniquement la première ligne au début
-                grillePanel.add(comboBox);
+                lignesPanel[i].add(comboBox); // Ajouter la JComboBox au panel de la ligne
             }
+
+            // Ajouter un JLabel pour afficher le résultat
+            lblResultats[i] = new JLabel("");
+            lignesPanel[i].add(lblResultats[i]);
+
+            // Ajouter le panel de la ligne au panel principal
+            grillePanel.add(lignesPanel[i]);
         }
 
         grillePanel.revalidate();
@@ -60,9 +81,11 @@ public class MasterMindInter extends javax.swing.JFrame {
 
     private void afficherProchaineLigne() {
         ligneVisible++; // Passer à la ligne suivante
-        for (int i = ligneVisible * 4; i < (ligneVisible + 1) * 4; i++) {
-            if (i < grillePanel.getComponentCount()) {
-                grillePanel.getComponent(i).setVisible(true); // Rendre visible la nouvelle ligne
+
+        if (ligneVisible < 12) {
+            // Activer les JComboBox de la nouvelle ligne
+            for (int j = 0; j < 4; j++) {
+                matCombo[ligneVisible][j].setEnabled(true);
             }
         }
 
@@ -71,10 +94,8 @@ public class MasterMindInter extends javax.swing.JFrame {
     }
 
     private void desactiverLigne(int ligne) {
-        for (int i = ligne * 4; i < (ligne + 1) * 4; i++) {
-            if (i < grillePanel.getComponentCount()) {
-                grillePanel.getComponent(i).setEnabled(false); // Désactiver la ligne actuelle
-            }
+        for (int j = 0; j < 4; j++) {
+            matCombo[ligne][j].setEnabled(false); // Désactiver les JComboBox de la ligne actuelle
         }
     }
 
@@ -121,17 +142,19 @@ public class MasterMindInter extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         grillePanel = new javax.swing.JPanel();
         validerButton = new javax.swing.JButton();
-        lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setText("<html> <center>Bienvenue dans Mastermind !<br>Devinez la combinaison en un maximum de 12 tours.</center> </html>");
+        jLabel2.setFont(new java.awt.Font("Edwardian Script ITC", 1, 60)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("MASTERMIND");
         getContentPane().add(jLabel2, java.awt.BorderLayout.PAGE_START);
 
         grillePanel.setBackground(new java.awt.Color(204, 204, 204));
         grillePanel.setLayout(new java.awt.GridLayout(12, 4, 5, 5));
         getContentPane().add(grillePanel, java.awt.BorderLayout.CENTER);
 
+        validerButton.setFont(new java.awt.Font("Segoe UI Symbol", 0, 48)); // NOI18N
         validerButton.setText("Valider");
         validerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,9 +162,6 @@ public class MasterMindInter extends javax.swing.JFrame {
             }
         });
         getContentPane().add(validerButton, java.awt.BorderLayout.PAGE_END);
-
-        lblMessage.setText("jLabel1");
-        getContentPane().add(lblMessage, java.awt.BorderLayout.LINE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -153,22 +173,21 @@ String[] proposition = new String[4];
 
         // Récupérer la proposition de la ligne actuelle
         for (int i = 0; i < 4; i++) {
-            JComboBox<String> comboBox = (JComboBox<String>) grillePanel.getComponent(ligneVisible * 4 + i);
-            proposition[i] = (String) comboBox.getSelectedItem();
+            proposition[i] = (String) matCombo[ligneVisible][i].getSelectedItem();
         }
 
         // Comparer avec la combinaison secrète
         String resultat = comparerCombinaisons(proposition, combinaisonSecrete);
 
-        // Afficher le résultat dans lblMessage
-        lblMessage.setText(resultat);
+        // Afficher le résultat dans le JLabel de la ligne actuelle
+        lblResultats[ligneVisible].setText(resultat);
 
         // Vérifier victoire ou progression
         if (resultat.startsWith("Bien placés : 4")) {
-            lblMessage.setText("Félicitations, vous avez gagné !");
-            validerButton.setEnabled(false); // Désactiver le bouton en cas de victoire
+            lblResultats[ligneVisible].setText("Félicitations, vous avez gagné !");
+            validerButton.setEnabled(false); // Désactiver le bouton
         } else if (ligneVisible == 11) { // Dernière tentative
-            lblMessage.setText("Défaite ! La combinaison secrète était : " + String.join(", ", combinaisonSecrete));
+            lblResultats[ligneVisible].setText("Défaite ! La combinaison était : " + String.join(", ", combinaisonSecrete));
             validerButton.setEnabled(false);
         } else {
             desactiverLigne(ligneVisible); // Désactiver la ligne actuelle
@@ -227,7 +246,6 @@ String[] proposition = new String[4];
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel grillePanel;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel lblMessage;
     private javax.swing.JButton validerButton;
     // End of variables declaration//GEN-END:variables
 }
