@@ -22,6 +22,7 @@ public class MasterMindInter extends javax.swing.JFrame {
     public MasterMindInter() {
         initComponents();
         initGrille();
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // Fenêtre en plein écran
     }
 
     private void initGrille() {
@@ -64,12 +65,16 @@ public class MasterMindInter extends javax.swing.JFrame {
                     comboBox.repaint();
                 });
 
-                lignesPanel[i].add(comboBox); // Ajouter la JComboBox au panel de la ligne
+                lignesPanel[i].add(comboBox);
             }
 
             // Ajouter un JLabel pour afficher le résultat
             lblResultats[i] = new JLabel("");
+            lblResultats[i].setVisible(i == 0); // Cache tous les labels sauf le premier
             lignesPanel[i].add(lblResultats[i]);
+
+            // Cacher les lignes autres que la première
+            lignesPanel[i].setVisible(i == 0);
 
             // Ajouter le panel de la ligne au panel principal
             grillePanel.add(lignesPanel[i]);
@@ -83,6 +88,10 @@ public class MasterMindInter extends javax.swing.JFrame {
         ligneVisible++; // Passer à la ligne suivante
 
         if (ligneVisible < 12) {
+            // Rendre la nouvelle ligne visible
+            lignesPanel[ligneVisible].setVisible(true);
+            lblResultats[ligneVisible].setVisible(true);
+
             // Activer les JComboBox de la nouvelle ligne
             for (int j = 0; j < 4; j++) {
                 matCombo[ligneVisible][j].setEnabled(true);

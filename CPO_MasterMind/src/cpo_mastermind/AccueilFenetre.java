@@ -4,18 +4,65 @@
  */
 package cpo_mastermind;
 
-/**
- *
- * @author julia
- */
-public class AccueilFenetre extends javax.swing.JFrame {
+import javax.swing.*;
+import java.awt.*;
 
-    /**
-     * Creates new form AccueilFenetre
-     */
+public class AccueilFenetre extends JFrame {
+
     public AccueilFenetre() {
-        initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Ouvrir en plein écran
+        setTitle("Accueil - Mastermind");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Contenu principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+
+        // Titre
+        JLabel lblTitre = new JLabel("Mastermind", SwingConstants.CENTER);
+        lblTitre.setFont(new Font("Arial", Font.BOLD, 48)); // Double la taille du texte
+        mainPanel.add(lblTitre, BorderLayout.NORTH);
+
+        // Règles du jeu
+        JTextPane txtRegles = new JTextPane();
+        txtRegles.setContentType("text/html"); // Pour supporter du HTML
+        txtRegles.setText("""
+            <html>
+                <div style='text-align: center; font-size: 20px;'>
+                    <p><strong>Bienvenue dans le jeu du Mastermind !</strong></p>
+                    <p>- Trouvez la combinaison secrète en un maximum de 12 essais.</p>
+                    <p>- Chaque essai est constitué de 4 couleurs choisies parmi : 
+                        <span style='color: red;'>Rouge</span>, 
+                        <span style='color: blue;'>Bleu</span>, 
+                        <span style='color: green;'>Vert</span>, 
+                        <span style='color: yellow;'>Jaune</span>.
+                    </p>
+                    <p>- Les indices indiquent le nombre de pions <strong>bien placés</strong> et <strong>mal placés</strong>.</p>
+                    <p>Bonne chance !</p>
+                </div>
+            </html>
+        """);
+        txtRegles.setEditable(false);
+        mainPanel.add(new JScrollPane(txtRegles), BorderLayout.CENTER);
+
+        // Bouton "Jouer"
+        JButton btnJouer = new JButton("Jouer");
+        btnJouer.setFont(new Font("Arial", Font.BOLD, 32)); // Double la taille du texte
+        btnJouer.setPreferredSize(new Dimension(200, 100)); // Bouton plus grand
+        btnJouer.addActionListener(e -> {
+            new MasterMindInter().setVisible(true); // Lancer la fenêtre principale
+            dispose(); // Fermer la fenêtre actuelle
+        });
+        mainPanel.add(btnJouer, BorderLayout.SOUTH);
+
+        add(mainPanel);
     }
+
+ 
+
+    
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,6 +93,14 @@ public class AccueilFenetre extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        // Lancer l'application
+        SwingUtilities.invokeLater(() -> {
+            AccueilFenetre accueil = new AccueilFenetre();
+            accueil.setVisible(true);
+        });
+    
+    
+    
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
