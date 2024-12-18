@@ -6,10 +6,17 @@ package cpo_mastermind;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class MasterMindInter extends javax.swing.JFrame {
 
@@ -65,17 +72,14 @@ public class MasterMindInter extends javax.swing.JFrame {
         String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
 
         for (int i = 0; i < nbCoups; i++) {
-            // Créer un panel pour la ligne avec GridLayout (4 colonnes pour JComboBox, 1 pour JLabel)
             lignesPanel[i] = new JPanel(new GridLayout(1, 5, 10, 0));
 
-            // Ajouter 4 JComboBox pour la ligne
             for (int j = 0; j < 4; j++) {
                 JComboBox<String> comboBox = new JComboBox<>(couleurs);
-                comboBox.setPreferredSize(new Dimension(60, 30)); // Taille fixe pour les JComboBox
-                comboBox.setEnabled(i == 0); // Active uniquement la première ligne au début
+                comboBox.setPreferredSize(new Dimension(60, 30));
+                comboBox.setEnabled(i == 0);
                 matCombo[i][j] = comboBox;
 
-                // Listener pour changer la couleur de fond
                 comboBox.addActionListener(e -> {
                     String selectedColor = (String) comboBox.getSelectedItem();
                     switch (selectedColor) {
@@ -94,22 +98,17 @@ public class MasterMindInter extends javax.swing.JFrame {
                         default:
                             comboBox.setBackground(Color.WHITE);
                     }
-                    comboBox.setOpaque(true); // Nécessaire pour afficher la couleur
+                    comboBox.setOpaque(true);
                     comboBox.repaint();
                 });
 
                 lignesPanel[i].add(comboBox);
             }
 
-            // Ajouter un JLabel pour afficher le résultat
             lblResultats[i] = new JLabel("");
-            lblResultats[i].setVisible(i == 0); // Cache tous les labels sauf le premier
+            lblResultats[i].setVisible(i == 0);
             lignesPanel[i].add(lblResultats[i]);
-
-            // Cacher les lignes autres que la première
             lignesPanel[i].setVisible(i == 0);
-
-            // Ajouter le panel de la ligne au panel principal
             grillePanel.add(lignesPanel[i]);
         }
 
@@ -118,14 +117,12 @@ public class MasterMindInter extends javax.swing.JFrame {
     }
 
     private void afficherProchaineLigne() {
-        ligneVisible++; // Passer à la ligne suivante
+        ligneVisible++;
 
         if (ligneVisible < nbCoups) {
-            // Rendre la nouvelle ligne visible
             lignesPanel[ligneVisible].setVisible(true);
             lblResultats[ligneVisible].setVisible(true);
 
-            // Activer les JComboBox de la nouvelle ligne
             for (int j = 0; j < 4; j++) {
                 matCombo[ligneVisible][j].setEnabled(true);
             }
@@ -137,7 +134,7 @@ public class MasterMindInter extends javax.swing.JFrame {
 
     private void desactiverLigne(int ligne) {
         for (int j = 0; j < 4; j++) {
-            matCombo[ligne][j].setEnabled(false); // Désactiver les JComboBox de la ligne actuelle
+            matCombo[ligne][j].setEnabled(false);
         }
     }
 
@@ -147,7 +144,6 @@ public class MasterMindInter extends javax.swing.JFrame {
         boolean[] positionsMarquees = new boolean[secret.length];
         boolean[] positionsTestees = new boolean[proposition.length];
 
-        // Étape 1 : Bien placés
         for (int i = 0; i < proposition.length; i++) {
             if (proposition[i].equals(secret[i])) {
                 bienPlaces++;
@@ -156,7 +152,6 @@ public class MasterMindInter extends javax.swing.JFrame {
             }
         }
 
-        // Étape 2 : Mal placés
         for (int i = 0; i < proposition.length; i++) {
             if (!positionsTestees[i]) {
                 for (int j = 0; j < secret.length; j++) {
@@ -213,34 +208,77 @@ public class MasterMindInter extends javax.swing.JFrame {
 
 String[] proposition = new String[4];
 
-        // Récupérer la proposition de la ligne actuelle
         for (int i = 0; i < 4; i++) {
             proposition[i] = (String) matCombo[ligneVisible][i].getSelectedItem();
         }
 
-        // Comparer avec la combinaison secrète
         String resultat = comparerCombinaisons(proposition, combinaisonSecrete);
-
-        // Afficher le résultat dans le JLabel de la ligne actuelle
         lblResultats[ligneVisible].setText(resultat);
 
-        // Vérifier victoire ou progression
         if (resultat.startsWith("Bien placés : 4")) {
-            lblResultats[ligneVisible].setText("Félicitations, vous avez gagné !");
-            validerButton.setEnabled(false); // Désactiver le bouton
-        } else if (ligneVisible == nbCoups - 1) { // Dernière tentative
-            lblResultats[ligneVisible].setText("Défaite ! La combinaison était : " + String.join(", ", combinaisonSecrete));
-            validerButton.setEnabled(false);
+            finDePartie("Félicitations, vous avez gagné !");
+        } else if (ligneVisible == nbCoups - 1) {
+            finDePartie("Défaite ! La combinaison était : " + String.join(", ", combinaisonSecrete));
         } else {
-            desactiverLigne(ligneVisible); // Désactiver la ligne actuelle
-            afficherProchaineLigne(); // Afficher la suivante
+            desactiverLigne(ligneVisible);
+            afficherProchaineLigne();
         }
-    
-    
-    
-    
+    }
+
+    private void finDePartie(String message) {
+    // Création de la boîte de dialogue pour la fin de partie
+    JDialog finDialog = new JDialog(this, "Fin de partie", true);
+    finDialog.setSize(600, 300); // Augmentation de la taille de la fenêtre
+    finDialog.setLayout(new BoxLayout(finDialog.getContentPane(), BoxLayout.Y_AXIS));
+
+    // Label pour afficher le message
+    JLabel lblMessage = new JLabel(message, SwingConstants.CENTER);
+    lblMessage.setAlignmentX(CENTER_ALIGNMENT);
+    lblMessage.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20)); // Taille de police augmentée
+    finDialog.add(lblMessage);
+
+    // Panneau pour les boutons avec GridBagLayout pour le centrage
+    JPanel boutonsPanel = new JPanel(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(10, 10, 10, 10); // Marges entre les composants
+
+    // Création des boutons
+    JButton btnRejouer = new JButton("Rejouer");
+    JButton btnQuitter = new JButton("Quitter");
+
+    // Augmentation de la taille des boutons
+    btnRejouer.setPreferredSize(new Dimension(200, 50)); // Taille augmentée
+    btnRejouer.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16)); // Police augmentée
+    btnQuitter.setPreferredSize(new Dimension(200, 50)); // Taille augmentée
+    btnQuitter.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16)); // Police augmentée
+
+    // Actions pour les boutons
+    btnRejouer.addActionListener(e -> {
+        new AccueilFenetre().setVisible(true);
+        finDialog.dispose();
+        this.dispose();
+    });
+
+    btnQuitter.addActionListener(e -> System.exit(0));
+
+    // Ajout des boutons au panneau
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    boutonsPanel.add(btnRejouer, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    boutonsPanel.add(btnQuitter, gbc);
+
+    // Ajout du panneau des boutons à la fenêtre
+    finDialog.add(boutonsPanel);
+
+    // Centrer la boîte de dialogue par rapport à la fenêtre principale
+    finDialog.setLocationRelativeTo(this);
+    finDialog.setVisible(true);
 
 
+    
 
 
     }//GEN-LAST:event_validerButtonActionPerformed
