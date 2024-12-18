@@ -14,24 +14,57 @@ import javax.swing.JPanel;
 public class MasterMindInter extends javax.swing.JFrame {
 
     private int ligneVisible = 0;
-    private String[] combinaisonSecrete = {"Rouge", "Bleu", "Jaune", "Vert"}; // Combinaison secrète
+    private String[] combinaisonSecrete;
     private JLabel[] lblResultats = new JLabel[12]; // Labels pour afficher les résultats ligne par ligne
     private JPanel[] lignesPanel = new JPanel[12]; // Un JPanel pour chaque ligne
     private JComboBox<String>[][] matCombo = new JComboBox[12][4]; // Matrice de JComboBox pour les couleurs
+    private String difficulte;
+    private int nbCoups = 12;
 
-    public MasterMindInter() {
+    public MasterMindInter(String difficulte) {
+        this.difficulte = difficulte;
         initComponents();
+        configurerDifficulte();
         initGrille();
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // Fenêtre en plein écran
     }
 
+    private void configurerDifficulte() {
+        switch (difficulte) {
+            case "Facile":
+                combinaisonSecrete = new String[]{"Rouge", "Bleu", "Jaune", "Vert"}; // Couleurs uniques
+                break;
+
+            case "Moyen":
+                combinaisonSecrete = genererCombinaisonAvecDoublons();
+                break;
+
+            case "Difficile":
+                combinaisonSecrete = genererCombinaisonAvecDoublons();
+                nbCoups = 8; // Réduire le nombre d'essais
+                break;
+
+            default:
+                throw new IllegalArgumentException("Difficulté non reconnue : " + difficulte);
+        }
+    }
+
+    private String[] genererCombinaisonAvecDoublons() {
+        String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"};
+        String[] combinaison = new String[4];
+        for (int i = 0; i < 4; i++) {
+            combinaison[i] = couleurs[(int) (Math.random() * couleurs.length)];
+        }
+        return combinaison;
+    }
+
     private void initGrille() {
         grillePanel.removeAll(); // Efface les composants existants
-        grillePanel.setLayout(new GridLayout(12, 1, 5, 5)); // Grille de 12 lignes, espacement vertical de 5px
+        grillePanel.setLayout(new GridLayout(nbCoups, 1, 5, 5)); // Grille adaptée au nombre d'essais
 
         String[] couleurs = {"Rouge", "Bleu", "Vert", "Jaune"}; // Couleurs disponibles
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < nbCoups; i++) {
             // Créer un panel pour la ligne avec GridLayout (4 colonnes pour JComboBox, 1 pour JLabel)
             lignesPanel[i] = new JPanel(new GridLayout(1, 5, 10, 0));
 
@@ -87,7 +120,7 @@ public class MasterMindInter extends javax.swing.JFrame {
     private void afficherProchaineLigne() {
         ligneVisible++; // Passer à la ligne suivante
 
-        if (ligneVisible < 12) {
+        if (ligneVisible < nbCoups) {
             // Rendre la nouvelle ligne visible
             lignesPanel[ligneVisible].setVisible(true);
             lblResultats[ligneVisible].setVisible(true);
@@ -195,13 +228,16 @@ String[] proposition = new String[4];
         if (resultat.startsWith("Bien placés : 4")) {
             lblResultats[ligneVisible].setText("Félicitations, vous avez gagné !");
             validerButton.setEnabled(false); // Désactiver le bouton
-        } else if (ligneVisible == 11) { // Dernière tentative
+        } else if (ligneVisible == nbCoups - 1) { // Dernière tentative
             lblResultats[ligneVisible].setText("Défaite ! La combinaison était : " + String.join(", ", combinaisonSecrete));
             validerButton.setEnabled(false);
         } else {
             desactiverLigne(ligneVisible); // Désactiver la ligne actuelle
             afficherProchaineLigne(); // Afficher la suivante
         }
+    
+    
+    
     
 
 
@@ -245,10 +281,8 @@ String[] proposition = new String[4];
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MasterMindInter().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MasterMindInter("Facile").setVisible(true); // Mode par défaut : "Facile"
         });
     }
 
